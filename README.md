@@ -11,9 +11,6 @@ The `AHB-Lite Arbiter and SubSystem` project implements an Advanced High-perform
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Pending Tasks](#pending-tasks)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
 
 ## Features
 
