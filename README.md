@@ -31,7 +31,7 @@ The `AHB-Lite Arbiter and SubSystem` project implements an Advanced High-perform
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/YourUsername/AHB-Lite-Arbiter-SubSystem.git
+   git clone https://github.com/DestinyN1/AHB-Lite-Arbiter-SubSystem.git
 
 ##Pending-tasks
 -Implement HSEL Signal in Arbiter:
