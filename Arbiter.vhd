@@ -9,14 +9,15 @@ entity Arbiter is
     HRESETn     : in std_logic;
 
 -- Signals to represent shared data bus
-   shared_HWDATA: out std_logic_vector(31 downto 0);
-   shared_HRDATA: out std_logic_vector(31 downto 0);
-   shared_HADDR: out std_logic_vector(31 downto 0);
-   shared_HTRANS: out std_logic_vector(1 downto 0);
-   shared_HSIZE: out std_logic_vector(2 downto 0);
-   shared_HBURST: out std_logic_vector(2 downto 0);
-   shared_HREADY: out std_logic;
-   shared_HRESP: out std_logic_vector(1 downto 0);
+   shared_HWDATA: inout std_logic_vector(31 downto 0);
+   shared_HRDATA: inout std_logic_vector(31 downto 0);
+   shared_HADDR: inout std_logic_vector(31 downto 0);
+   shared_HTRANS: inout std_logic_vector(1 downto 0);
+   shared_HSIZE: inout std_logic_vector(2 downto 0);
+   shared_HBURST: inout std_logic_vector(2 downto 0);
+   shared_HREADY: inout std_logic;
+   shared_HRESP: inout std_logic_vector(1 downto 0);
+   shared_HSEL: inout std_logic;
    
    
    
@@ -91,12 +92,12 @@ entity Arbiter is
     SSI_HMASTLOCK : in std_logic;
     SOSSI_HMASTLOCK: in std_logic;
 
-    I2C_HSEL      : out std_logic;
-    SPI_HSEL      : out std_logic;
-    CCP_HSEL      : out std_logic;
-    UART_HSEL     : out std_logic;
-    SSI_HSEL      : out std_logic;
-    SOSSI_HSEL    : out std_logic;
+    I2C_HSEL      : in std_logic;
+    SPI_HSEL      : in std_logic;
+    CCP_HSEL      : in std_logic;
+    UART_HSEL     : in std_logic;
+    SSI_HSEL      : in std_logic;
+    SOSSI_HSEL    : in std_logic;
 
     -- Master signals
     
@@ -119,7 +120,7 @@ entity Arbiter is
     CPU_HREADY    : in std_logic;
     CPU_HRESP     : in std_logic_vector(1 downto 0);
     CPU_HMASTLOCK : in std_logic;
-    CPU_HSEL      : out std_logic;
+    CPU_HSEL      : in std_logic;
     CPU_HBUSREQ   : in std_logic
    
    
@@ -607,6 +608,50 @@ begin
             shared_HRESP <= "00";  -- Default to OKAY (successful transfer)
         end if;
     end if;
+end process;
+
+--Forwarding of HSEL signal
+FWDHSEL_p: process(HCLK, HRESETn)
+begin
+if HRESETn = '0' then 
+ shared_HSEL <= '0';
+ 
+ elsif rising_edge(HCLK) then
+ 
+  if I2C_HGRANT ='1' then
+   shared_HSEL <= I2C_HSEL;
+   
+   
+   elsif SPI_HGRANT ='1' then
+   shared_HSEL <= SPI_HSEL;
+   
+   
+   elsif CCP_HGRANT ='1' then
+   shared_HSEL <= CCP_HSEL;
+   
+   
+   elsif UART_HGRANT ='1' then
+   shared_HSEL <= UART_HSEL;
+   
+   
+   elsif SOSSI_HGRANT ='1' then
+   shared_HSEL <= SOSSI_HSEL;
+   
+   
+   elsif CPU_HGRANT ='1' then
+   shared_HSEL <= CPU_HSEL;
+   
+   
+    elsif SSI_HGRANT ='1' then
+   shared_HSEL <= SSI_HSEL;
+   
+   
+   --If no valid master is using the bus set to default value
+   else 
+   shared_HSEL <= '0' ;
+
+end if;
+end if;
 end process;
 
 

@@ -16,8 +16,15 @@ end SubSystem;
 architecture Behavioral of SubSystem is
 -- Signal declarations for AHB-Lite buses
 
---signal respresenting shared data buses for reading and writing data
+--signal respresenting shared data buses for AHB signals
 signal  shared_HWDATA, shared_HRDATA : std_logic_vector(31 downto 0);
+signal shared_HADDR:  std_logic_vector(31 downto 0);
+signal shared_HTRANS:  std_logic_vector(1 downto 0);
+signal shared_HSIZE:  std_logic_vector(2 downto 0);
+signal shared_HBURST:  std_logic_vector(2 downto 0);
+signal shared_HREADY:  std_logic;
+signal shared_HRESP:  std_logic_vector(1 downto 0);
+signal shared_HSEL: std_logic;
 
 -- Address Bus (32-bit)
 signal I2C_HADDR, SPI_HADDR, CCP_HADDR, UART_HADDR, SSI_HADDR, SOSSI_HADDR : std_logic_vector(31 downto 0);
@@ -149,10 +156,213 @@ Arbiter_Inst : entity work.Arbiter
     CPU_HRESP  => CPU_HRESP,
     CPU_HMASTLOCK => CPU_HMASTLOCK,
     CPU_HSEL   => CPU_HSEL,
-    CPU_HBUSREQ => CPU_HBUSREQ
+    CPU_HBUSREQ => CPU_HBUSREQ,
+    
+   --Ports AHB-lite shared bus interface into arbiter 
+    shared_HADDR => shared_HADDR,
+    shared_HTRANS => shared_HTRANS,
+    shared_HSIZE => shared_HSIZE,
+    shared_HBURST => shared_HBURST,
+    shared_HREADY => shared_HREADY,
+    shared_HWDATA => shared_HWDATA,
+    shared_HRESP => shared_HRESP,
+    shared_HSEL => shared_HSEL
+    
+
+
+
+    
 
   );
 
-  -- Implement the interconnectivity of the IPs to the arbiter here
-  -- For now, just show that each IP is connected via AHB Lite
+I2C_Inst : entity work.I2C
+  port map (
+    HCLK => HCLK,
+    HRESETn => HRESETn,
+    shared_HADDR => shared_HADDR,
+    shared_HTRANS => shared_HTRANS,
+    shared_HSIZE => shared_HSIZE,
+    shared_HBURST => shared_HBURST,
+    shared_HREADY => shared_HREADY,
+    shared_HWDATA => shared_HWDATA,
+    shared_HRDATA => shared_HRDATA,
+    shared_HRESP => shared_HRESP,
+    shared_HSEL => shared_HSEL,
+    I2C_HADDR    => I2C_HADDR,
+    I2C_HTRANS   => I2C_HTRANS,
+    I2C_HSIZE    => I2C_HSIZE,
+    I2C_HBURST   => I2C_HBURST,
+    I2C_HWRITE   => I2C_HWRITE,
+    I2C_HWDATA   => I2C_HWDATA,
+    I2C_HRDATA   => I2C_HRDATA,
+    I2C_HREADY   => I2C_HREADY,
+    I2C_HRESP    => I2C_HRESP,
+    I2C_HMASTLOCK=> I2C_HMASTLOCK,
+    I2C_HSEL     => I2C_HSEL
+
+  );
+  
+  CCP_inst : entity work.CCP
+  port map (
+    HCLK => HCLK,
+    HRESETn => HRESETn,
+    shared_HADDR => shared_HADDR,
+    shared_HTRANS => shared_HTRANS,
+    shared_HSIZE => shared_HSIZE,
+    shared_HBURST => shared_HBURST,
+    shared_HREADY => shared_HREADY,
+    shared_HWDATA => shared_HWDATA,
+    shared_HRDATA => shared_HRDATA,
+    shared_HRESP => shared_HRESP,
+    shared_HSEL => shared_HSEL,
+    CCP_HADDR    => CCP_HADDR,
+    CCP_HTRANS   => CCP_HTRANS,
+    CCP_HSIZE    => CCP_HSIZE,
+    CCP_HBURST   => CCP_HBURST,
+    CCP_HWRITE   => CCP_HWRITE,
+    CCP_HWDATA   => CCP_HWDATA,
+    CCP_HRDATA   => CCP_HRDATA,
+    CCP_HREADY   => CCP_HREADY,
+    CCP_HRESP    => CCP_HRESP,
+    CCP_HMASTLOCK=> CCP_HMASTLOCK,
+    CCP_HSEL     => CCP_HSEL
+
+  );
+  
+  SPI_inst : entity work.SPI
+  port map (
+    HCLK => HCLK,
+    HRESETn => HRESETn,
+    shared_HADDR => shared_HADDR,
+    shared_HTRANS => shared_HTRANS,
+    shared_HSIZE => shared_HSIZE,
+    shared_HBURST => shared_HBURST,
+    shared_HREADY => shared_HREADY,
+    shared_HWDATA => shared_HWDATA,
+    shared_HRDATA => shared_HRDATA,
+    shared_HRESP => shared_HRESP,
+    shared_HSEL => shared_HSEL,
+    SPI_HADDR    => SPI_HADDR,
+    SPI_HTRANS   => SPI_HTRANS,
+    SPI_HSIZE    => SPI_HSIZE,
+    SPI_HBURST   => SPI_HBURST,
+    SPI_HWRITE   => SPI_HWRITE,
+    SPI_HWDATA   => SPI_HWDATA,
+    SPI_HRDATA   => SPI_HRDATA,
+    SPI_HREADY   => SPI_HREADY,
+    SPI_HRESP    => SPI_HRESP,
+    SPI_HMASTLOCK=> SPI_HMASTLOCK,
+    SPI_HSEL     => SPI_HSEL
+
+  );
+  
+  UART_inst : entity work.UART
+  port map (
+    HCLK => HCLK,
+    HRESETn => HRESETn,
+    shared_HADDR => shared_HADDR,
+    shared_HTRANS => shared_HTRANS,
+    shared_HSIZE => shared_HSIZE,
+    shared_HBURST => shared_HBURST,
+    shared_HREADY => shared_HREADY,
+    shared_HWDATA => shared_HWDATA,
+    shared_HRDATA => shared_HRDATA,    
+    shared_HRESP => shared_HRESP,
+    shared_HSEL => shared_HSEL,
+    UART_HADDR    => UART_HADDR,
+    UART_HTRANS   => UART_HTRANS,
+    UART_HSIZE    => UART_HSIZE,
+    UART_HBURST   => UART_HBURST,
+    UART_HWRITE   => UART_HWRITE,
+    UART_HWDATA   => UART_HWDATA,
+    UART_HRDATA   => UART_HRDATA,
+    UART_HREADY   => UART_HREADY,
+    UART_HRESP    => UART_HRESP,
+    UART_HMASTLOCK=> UART_HMASTLOCK,
+    UART_HSEL     => UART_HSEL
+
+  );
+  
+  SSI_inst : entity work.SSI
+  port map (
+    HCLK => HCLK,
+    HRESETn => HRESETn,
+    shared_HADDR => shared_HADDR,
+    shared_HTRANS => shared_HTRANS,
+    shared_HSIZE => shared_HSIZE,
+    shared_HBURST => shared_HBURST,
+    shared_HREADY => shared_HREADY,
+    shared_HRDATA => shared_HRDATA,    
+    shared_HWDATA => shared_HWDATA,
+    shared_HRESP => shared_HRESP,
+    shared_HSEL => shared_HSEL,
+    SSI_HADDR    => SSI_HADDR,
+    SSI_HTRANS   => SSI_HTRANS,
+    SSI_HSIZE    => SSI_HSIZE,
+    SSI_HBURST   => SSI_HBURST,
+    SSI_HWRITE   => SSI_HWRITE,
+    SSI_HWDATA   => SSI_HWDATA,
+    SSI_HRDATA   => SSI_HRDATA,
+    SSI_HREADY   => SSI_HREADY,
+    SSI_HRESP    => SSI_HRESP,
+    SSI_HMASTLOCK=> SSI_HMASTLOCK,
+    SSI_HSEL     => SSI_HSEL
+
+    
+  );
+  
+  SOSSI_inst : entity work.SOSSI
+  port map (
+    HCLK => HCLK,
+    HRESETn => HRESETn,
+    shared_HADDR => shared_HADDR,
+    shared_HTRANS => shared_HTRANS,
+    shared_HSIZE => shared_HSIZE,
+    shared_HBURST => shared_HBURST,
+    shared_HREADY => shared_HREADY,
+    shared_HWDATA => shared_HWDATA,
+    shared_HRDATA => shared_HRDATA,    
+    shared_HRESP => shared_HRESP,
+    shared_HSEL => shared_HSEL,
+    SOSSI_HADDR    => SOSSI_HADDR,
+    SOSSI_HTRANS   => SOSSI_HTRANS,
+    SOSSI_HSIZE    => SOSSI_HSIZE,
+    SOSSI_HBURST   => SOSSI_HBURST,
+    SOSSI_HWRITE   => SOSSI_HWRITE,
+    SOSSI_HWDATA   => SOSSI_HWDATA,
+    SOSSI_HRDATA   => SOSSI_HRDATA,
+    SOSSI_HREADY   => SOSSI_HREADY,
+    SOSSI_HRESP    => SOSSI_HRESP,
+    SOSSI_HMASTLOCK=> SOSSI_HMASTLOCK,
+    SOSSI_HSEL     => SOSSI_HSEL
+
+  );
+  
+  CPU_inst : entity work.CPU
+  port map (
+    HCLK => HCLK,
+    HRESETn => HRESETn,
+    shared_HADDR => shared_HADDR,
+    shared_HTRANS => shared_HTRANS,
+    shared_HSIZE => shared_HSIZE,
+    shared_HBURST => shared_HBURST,
+    shared_HREADY => shared_HREADY,
+    shared_HWDATA => shared_HWDATA,
+    shared_HRDATA => shared_HRDATA,
+    shared_HRESP => shared_HRESP,
+    shared_HSEL => shared_HSEL,
+    CPU_HADDR  => CPU_HADDR,
+    CPU_HTRANS => CPU_HTRANS,
+    CPU_HSIZE  => CPU_HSIZE,
+    CPU_HBURST => CPU_HBURST,
+    CPU_HWRITE => CPU_HWRITE,
+    CPU_HWDATA => CPU_HWDATA,
+    CPU_HRDATA => CPU_HRDATA,
+    CPU_HREADY => CPU_HREADY,
+    CPU_HRESP  => CPU_HRESP,
+    CPU_HMASTLOCK => CPU_HMASTLOCK,
+    CPU_HSEL   => CPU_HSEL,
+    CPU_HBUSREQ => CPU_HBUSREQ
+  );
+  
 end Behavioral;
