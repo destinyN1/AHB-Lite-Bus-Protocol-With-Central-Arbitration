@@ -9,15 +9,15 @@ entity Arbiter is
     HRESETn     : in std_logic;
 
 -- Signals to represent shared data bus
-   shared_HWDATA: inout std_logic_vector(31 downto 0);
-   shared_HRDATA: inout std_logic_vector(31 downto 0);
-   shared_HADDR: inout std_logic_vector(31 downto 0);
-   shared_HTRANS: inout std_logic_vector(1 downto 0);
-   shared_HSIZE: inout std_logic_vector(2 downto 0);
-   shared_HBURST: inout std_logic_vector(2 downto 0);
-   shared_HREADY: inout std_logic;
-   shared_HRESP: inout std_logic_vector(1 downto 0);
-   shared_HSEL: inout std_logic;
+   shared_HWDATA: out std_logic_vector(31 downto 0);
+   shared_HRDATA: out std_logic_vector(31 downto 0);
+   shared_HADDR: out std_logic_vector(31 downto 0);
+   shared_HTRANS: out std_logic_vector(1 downto 0);
+   shared_HSIZE: out std_logic_vector(2 downto 0);
+   shared_HBURST: out std_logic_vector(2 downto 0);
+   shared_HREADY: out std_logic;
+   shared_HRESP: out std_logic_vector(1 downto 0);
+   shared_HSEL: out std_logic;
    
    
    

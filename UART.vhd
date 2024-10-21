@@ -14,15 +14,15 @@ entity UART is
 port(
    HCLK: in std_logic;
    HRESETn: in std_logic;
-   shared_HWDATA: inout std_logic_vector(31 downto 0);
-   shared_HRDATA: inout std_logic_vector(31 downto 0);
-   shared_HADDR: inout std_logic_vector(31 downto 0);
-   shared_HTRANS: inout std_logic_vector(1 downto 0);
-   shared_HSIZE: inout std_logic_vector(2 downto 0);
-   shared_HBURST: inout std_logic_vector(2 downto 0);
-   shared_HREADY: inout std_logic;
-   shared_HRESP: inout std_logic_vector(1 downto 0);
-   shared_HSEL: inout std_logic;
+   shared_HWDATA: in std_logic_vector(31 downto 0);
+   shared_HRDATA: in std_logic_vector(31 downto 0);
+   shared_HADDR: in std_logic_vector(31 downto 0);
+   shared_HTRANS: in std_logic_vector(1 downto 0);
+   shared_HSIZE: in std_logic_vector(2 downto 0);
+   shared_HBURST: in std_logic_vector(2 downto 0);
+   shared_HREADY: in std_logic;
+   shared_HRESP: in std_logic_vector(1 downto 0);
+   shared_HSEL: in std_logic;
    
    UART_HADDR     : out std_logic_vector(31 downto 0);
    UART_HTRANS    : out std_logic_vector(1 downto 0);
