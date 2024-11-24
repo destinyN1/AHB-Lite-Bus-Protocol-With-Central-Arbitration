@@ -2,45 +2,60 @@
 
 ## Overview
 
-The `AHB-Lite Arbiter and SubSystem` project implements an Advanced High-performance Bus (AHB)-Lite arbiter and a corresponding subsystem using VHDL. The arbiter manages bus access among multiple masters (I2C, SPI, CCP, UART, SSI, SOSSI, and CPU) in a round-robin fashion, ensuring efficient and conflict-free communication over the shared AHB-Lite bus. The subsystem integrates various IP cores with the arbiter, facilitating seamless data transfer and interaction between the CPU and peripheral devices.
+The `AHB-Lite Arbiter and SubSystem` project provides a robust implementation of an Advanced High-performance Bus (AHB)-Lite Arbiter and an associated subsystem in VHDL. The arbiter efficiently manages bus access among multiple masters (I2C, SPI, CCP, UART, SSI, SOSSI, and CPU) using a round-robin algorithm. The subsystem integrates various IP cores and peripherals, enabling seamless data transfer and interaction between the CPU and connected devices.
 
 ## Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
+- [Architecture](#architecture)
 - [Requirements](#requirements)
-- [Installation](#installation)
+- [Usage](#usage)
 - [Pending Tasks](#pending-tasks)
 
 ## Features
 
-- **Round-Robin Arbitration:** Implements a round-robin arbitration mechanism to manage bus access among multiple masters, ensuring fair and efficient usage of the AHB-Lite bus.
-- **AHB-Lite Interface:** Supports AHB-Lite protocol for communication between the CPU and various peripheral IPs (I2C, SPI, CCP, UART, SSI, SOSSI).
-- **Bus Access Management:** Manages shared data buses (`HWDATA`, `HRDATA`, `HADDR`, `HTRANS`, `HSIZE`, `HBURST`, `HREADY`, `HRESP`) to facilitate read and write operations.
-- **Master Locking:** Supports master locking (`HMASTLOCK`) to allow masters to hold the bus for extended operations when necessary.
-- **Scalable Design:** Designed to accommodate additional masters or peripherals with minimal modifications.
+- **Round-Robin Arbitration**  
+  Implements round-robin arbitration to ensure fair access to the AHB-Lite bus for multiple masters.
+  
+- **AHB-Lite Protocol Compliance**  
+  Supports standard AHB-Lite signals for communication, including `HWDATA`, `HRDATA`, `HADDR`, `HTRANS`, `HSIZE`, `HBURST`, `HREADY`, `HRESP`, and `HSEL`.
+
+- **Master Locking Mechanism**  
+  Enables master locking (`HMASTLOCK`) to hold the bus for uninterrupted transactions when required.
+
+- **Seamless Peripheral Integration**  
+  Interfaces the CPU with various peripherals such as I2C, SPI, CCP, UART, SSI, and SOSSI through a shared AHB-Lite bus.
+
+- **Dynamic Signal Forwarding**  
+  Implements logic to dynamically forward signals (e.g., `HADDR`, `HWDATA`, `HRDATA`) based on the active master.
+
+- **Scalability**  
+  Designed to allow easy addition of new masters or peripherals with minimal modifications.
+
+## Architecture
+
+The system comprises the following components:
+
+1. **Arbiter**  
+   - Manages bus access among multiple masters using round-robin arbitration.
+   - Forwards appropriate signals (e.g., `HADDR`, `HTRANS`, `HSIZE`, `HREADY`) to and from the shared bus.
+
+2. **Subsystem**  
+   - Integrates the arbiter and various IP cores (e.g., I2C, SPI, CCP, UART, SSI, SOSSI).
+   - Connects the CPU with the peripherals through the shared bus.
+
+3. **Peripheral Interfaces**  
+   - Each peripheral (I2C, SPI, etc.) has its own AHB-Lite interface, ensuring smooth communication over the bus.
 
 ## Requirements
 
-- **VHDL Simulator:** Any VHDL simulation tool such as ModelSim, GHDL, Vivado, or similar.
-- **Text Editor/IDE:** For viewing and editing the VHDL code (e.g., Visual Studio Code, Sublime Text, Vivado IDE).
-- **Version Control (Optional):** Git, for cloning the repository.
+- **VHDL Simulator**: Any standard VHDL simulation tool such as ModelSim, GHDL, or Vivado.
+- **Text Editor/IDE**: For editing VHDL code (e.g., Visual Studio Code, Vivado IDE).
+- **Version Control (Optional)**: Git, for cloning the repository.
 
-## Installation
+## Usage
 
-1. **Clone the Repository:**
-
+1. **Clone the Repository**  
    ```bash
    git clone https://github.com/DestinyN1/AHB-Lite-Arbiter-SubSystem.git
-
-##Pending-tasks
--Implement HSEL Signal in Arbiter:
--Complete the implementation of the HSEL (Select) signal in the Arbiter module to accurately indicate the active slave based on the current master.
--Configure HSEL After Implementation:
-  -Once the HSEL signal is implemented, configure it appropriately within the Arbiter to ensure correct selection of peripheral devices during bus transactions.
-  -Verify and Complete Port and Signal Declarations:
-  -Review the SubSystem module for any incomplete port and signal declarations.
-  -Ensure all necessary signals are declared and correctly connected between the Arbiter and peripherals.
-
-
-
