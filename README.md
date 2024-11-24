@@ -11,7 +11,7 @@ The `AHB-Lite Arbiter and SubSystem` project provides a robust implementation of
 - [Architecture](#architecture)
 - [Requirements](#requirements)
 - [Usage](#usage)
-- [Pending Tasks](#pending-tasks)
+
 
 ## Features
 
